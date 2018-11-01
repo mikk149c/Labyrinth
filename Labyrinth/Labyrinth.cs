@@ -14,44 +14,130 @@ namespace Labyrinth
 		private Cord size;
 		private Cell[,] cells;
 		public Cord Start { get { return start; } set { start = value; } }
+
 		public Cord End { get { return end; } set { end = value; } }
 		public Cord Size { get { return size; } set { size = value; } }
-		public Cell[,] Cells { get { return cells; } set { cells = value; } }
 
 		public Labyrinth(int x, int y)
 		{
-			Size.X = x;
-			Size.Y = y;
-			Cells = new Cell[x, y];
+			Size = new Cord(x, y);
+			cells = new Cell[x, y];
+			for (int i = 0; i < Size.X; i++)
+				for (int j = 0; j < Size.Y; j++)
+					SetCell(new Cell(this, new Cord(i, j)));
 		}
 
-		internal List<INode> GetNaibors(Cell cell)
+		internal List<Cell> GetValidNaibors(Cell cell)
+		{
+			List<Cell> naibors = GetNaibors(cell);
+			List<Cell> validNaibors = new List<Cell>();
+			foreach (Cell c in naibors)
+					if (!c.IsWall() && !c.IsPath)
+						validNaibors.Add(c);
+			return validNaibors;
+		}
+
+		internal List<Cell> GetNaibors(Cell cell)
 		{
 			List<Cell> naibors = new List<Cell>();
-			naibors.Add();
-			naibors.Add();
-			naibors.Add();
-			naibors.Add();
+			naibors.Add(GetCell(cell.Pos.X - 1, cell.Pos.Y));
+			naibors.Add(GetCell(cell.Pos.X, cell.Pos.Y - 1));
+			naibors.Add(GetCell(cell.Pos.X + 1, cell.Pos.Y));
+			naibors.Add(GetCell(cell.Pos.X, cell.Pos.Y + 1));
+			List<Cell> validNaibors = new List<Cell>();
+			foreach (Cell c in naibors)
+				if (c != null)
+					validNaibors.Add(c);
+			return validNaibors;
+		}
+
+		public Cell GetCell(int x, int y)
+		{
+			if (0 <= x && x < Size.X && 0 <= y && y < Size.Y)
+				return cells[x, y];
+			return null;
+		}
+
+		public INode GetNode(int x, int y)
+		{
+			return GetCell(x, y);
+		}
+
+		public Cell GetCell(Cord pos)
+		{
+			return GetCell(pos.X, pos.Y);
+		}
+
+		private void SetCell (Cell cell)
+		{
+			cells[cell.Pos.X, cell.Pos.Y] = cell;
+		}
+
+		internal void GenaratePath(Cell cell)
+		{
+			Random r = new Random();
+			List<Cell> naibors = cell.GetValidNaibors();
+			List<Cell> validNaibors = new List<Cell>();
+			foreach (Cell c in naibors)
+			{
+				if (c.Equals(GetCell(end)))
+				{
+					cell.IsPath = true;
+					c.IsPath = true;
+					return;
+				}
+			}
+			cell.IsPath = true;
+			foreach (Cell c in naibors)
+				if (c.CanCompleat)
+					validNaibors.Add(c);
+			int ra = r.Next(validNaibors.Count);
+			Cell nextCell = validNaibors[ra];
+			Display();
+			System.Threading.Thread.Sleep(1000/10);
+			GenaratePath(nextCell);
 		}
 
 		internal void GenaratePath()
 		{
-			GenaratePath(Start);
-		}
-
-		internal void GenaratePath(Cord cord)
-		{
-			
+			GenaratePath(GetCell(Start));
 		}
 
 		public INode GetFirstNode()
 		{
-			return start;
+			return GetCell(start);
 		}
 
 		public INode GetLastNode()
 		{
-			throw new NotImplementedException();
+			return GetCell(End);
+		}
+
+		public void Display()
+		{
+			Console.Clear();
+			string print = "";
+			for (int x = 0; x < Size.X; x++)
+			{
+				for (int y = 0; y < Size.Y; y++)
+				{
+					if (GetCell(x, y).IsPath)
+					{
+						Console.BackgroundColor = ConsoleColor.Red;
+					}
+					else if (GetCell(x, y).IsWall())
+					{
+						Console.BackgroundColor = ConsoleColor.DarkYellow;
+					}
+					else
+					{
+						Console.BackgroundColor = ConsoleColor.White;
+					}
+					Console.Write("  ");
+				}
+				Console.WriteLine();
+				Console.BackgroundColor = ConsoleColor.Black;
+			}
 		}
 	}
 }

@@ -8,5 +8,6 @@ namespace PathFinding
 	{
 		INode GetFirstNode();
 		INode GetLastNode();
+		INode GetNode(int x, int Y);
 	}
 }

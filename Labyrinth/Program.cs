@@ -14,7 +14,7 @@ namespace Labyrinth
 			lab.Start = new Cord(0, 0);
 			lab.End = new Cord(10, 7);
 			lab.GenaratePath();
-			lab.ToString();
+			lab.Display();
 			Console.ReadKey();
 		}
 	}

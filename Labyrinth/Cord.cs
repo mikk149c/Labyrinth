@@ -19,6 +19,10 @@ namespace Labyrinth
 
 		public int X { get { return x; } set { x = value; } }
 		public int Y { get { return y; } set { y = value; } }
-		
+
+		public bool Equals(Cord cord)
+		{
+			return this.X.Equals(cord.X) && this.Y.Equals(cord.Y);
+		}
 	}
 }

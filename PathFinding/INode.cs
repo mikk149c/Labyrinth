@@ -6,8 +6,8 @@ namespace PathFinding
 {
 	public interface INode
 	{
-		List<INode> GetNaibors(INode node);
-
+		List<INode> GetNaibors();
+		bool Equals(INode node);
 
 	}
 }

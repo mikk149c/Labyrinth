@@ -10,7 +10,6 @@ namespace Labyrinth
 	public class Cell : INode
 	{
 		private bool isPath = false;
-		private bool isWall = false;
 		private Cord pos;
 		private Labyrinth parent;
 
@@ -21,12 +20,35 @@ namespace Labyrinth
 		}
 
 		public bool IsPath { get { return isPath; } set { isPath = value; } }
-		public bool IsWall { get { return isWall; } set { isWall = value; } }
 		public Cord Pos { get { return pos; } set { pos = value; } }
+		public bool CanCompleat { get { return PathFinding.PathFinding.CanCompleat(parent, this); } }
 
-		public List<INode> GetNaibors(INode node)
+		public List<INode> GetNaibors()
 		{
-			return parent.GetNaibors(this);
+			List<INode> list = new List<INode>();
+			foreach (Cell c in GetValidNaibors())
+				list.Add(c);
+			return list;
+		}
+
+		internal List<Cell> GetValidNaibors()
+		{
+			return parent.GetValidNaibors(this);
+		}
+
+		public bool IsWall()
+		{
+			foreach (Cell c in parent.GetNaibors(this))
+				if (c.isPath)
+					return true;
+			return false;
+		}
+
+		public bool Equals(INode node)
+		{
+			if (node is Cell c)
+				return this.Pos.Equals(c.Pos);
+			return false;
 		}
 	}
 }
