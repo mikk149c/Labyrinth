@@ -23,6 +23,6 @@ namespace Labyrinth
 		public bool Equals(Cord cord)
 		{
 			return this.X.Equals(cord.X) && this.Y.Equals(cord.Y);
-		26+}
+		}
 	}
 }
