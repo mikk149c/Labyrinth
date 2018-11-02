@@ -147,6 +147,10 @@ namespace Labyrinth
 					{
 						Console.BackgroundColor = ConsoleColor.DarkYellow;
 					}
+					else if (new Cord(x, y).Equals(start) || new Cord(x, y).Equals(end))
+					{
+						Console.BackgroundColor = ConsoleColor.Blue;
+					}
 					else
 					{
 						Console.BackgroundColor = ConsoleColor.White;
