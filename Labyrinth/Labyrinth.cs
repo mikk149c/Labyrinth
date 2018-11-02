@@ -106,7 +106,7 @@ namespace Labyrinth
 			int ra = r.Next(validNaibors.Count);
 			Cell nextCell = validNaibors[ra];
 			Display();
-			System.Threading.Thread.Sleep(1000/10);
+			System.Threading.Thread.Sleep(1000/12);
 			GenaratePath(nextCell);
 		}
 
@@ -141,11 +141,11 @@ namespace Labyrinth
 				{
 					if (GetCell(x, y).IsPath)
 					{
-						Console.BackgroundColor = ConsoleColor.Red;
+						Console.BackgroundColor = ConsoleColor.Yellow;
 					}
 					else if (GetCell(x, y).IsWall())
 					{
-						Console.BackgroundColor = ConsoleColor.DarkYellow;
+						Console.BackgroundColor = ConsoleColor.Black;
 					}
 					else if (new Cord(x, y).Equals(start) || new Cord(x, y).Equals(end))
 					{
@@ -153,7 +153,7 @@ namespace Labyrinth
 					}
 					else
 					{
-						Console.BackgroundColor = ConsoleColor.White;
+						Console.BackgroundColor = ConsoleColor.Gray;
 					}
 					Console.Write("  ");
 				}
