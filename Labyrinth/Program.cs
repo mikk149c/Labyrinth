@@ -10,9 +10,9 @@ namespace Labyrinth
 	{
 		static void Main(string[] args)
 		{
-			Cord size = new Cord(20, 40);
+			Cord size = new Cord(26, 26);
 			Cord start = new Cord(0, 0);
-			Cord end = new Cord(19, 19);
+			Cord end = new Cord(25, 25);
 			Labyrinth lab = new Labyrinth(size, start, end);
 			Console.ReadKey();
 		}
