@@ -10,11 +10,10 @@ namespace Labyrinth
 	{
 		static void Main(string[] args)
 		{
-			Labyrinth lab = new Labyrinth(11, 11);
-			lab.Start = new Cord(0, 0);
-			lab.End = new Cord(10, 7);
-			lab.GenaratePath();
-			lab.Display();
+			Cord size = new Cord(20, 20);
+			Cord start = new Cord(0, 0);
+			Cord end = new Cord(19, 19);
+			Labyrinth lab = new Labyrinth(size, start, end);
 			Console.ReadKey();
 		}
 	}

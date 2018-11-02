@@ -21,10 +21,21 @@ namespace Labyrinth
 		public Labyrinth(int x, int y)
 		{
 			Size = new Cord(x, y);
-			cells = new Cell[x, y];
+			cells = new Cell[Size.X, Size.Y];
 			for (int i = 0; i < Size.X; i++)
 				for (int j = 0; j < Size.Y; j++)
 					SetCell(new Cell(this, new Cord(i, j)));
+		}
+
+		public Labyrinth(Cord sizei, Cord start, Cord end) : this(sizei.X, sizei.Y)
+		{
+			Start = start;
+			End = end;
+			GenaratePath();
+		}
+
+		public Labyrinth()
+		{
 		}
 
 		internal List<Cell> GetValidNaibors(Cell cell)
@@ -73,7 +84,7 @@ namespace Labyrinth
 			cells[cell.Pos.X, cell.Pos.Y] = cell;
 		}
 
-		internal void GenaratePath(Cell cell)
+		private void GenaratePath(Cell cell)
 		{
 			Random r = new Random();
 			List<Cell> naibors = cell.GetValidNaibors();
@@ -84,6 +95,7 @@ namespace Labyrinth
 				{
 					cell.IsPath = true;
 					c.IsPath = true;
+					Display();
 					return;
 				}
 			}
@@ -116,9 +128,15 @@ namespace Labyrinth
 		public void Display()
 		{
 			Console.Clear();
-			string print = "";
+			Console.Write("  ");
+			for (int i = 0; i < Size.Y; i++)
+			{
+				Console.Write((char)(i+(int)'A') + " ");
+			}
+			Console.Write("\n");
 			for (int x = 0; x < Size.X; x++)
 			{
+				Console.Write((char)(x + (int)'A') + " ");
 				for (int y = 0; y < Size.Y; y++)
 				{
 					if (GetCell(x, y).IsPath)
