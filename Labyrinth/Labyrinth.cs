@@ -7,12 +7,13 @@ using PathFinding;
 
 namespace Labyrinth
 {
-	public class Labyrinth : INavigable
+	public class Labyrinth : INavigable, ICloneable
 	{
 		private Cord start;
 		private Cord end;
 		private Cord size;
 		private Cell[,] cells;
+		private Labyrinth currentShowingBoard;
 		public Cord Start { get { return start; } set { start = value; } }
 
 		public Cord End { get { return end; } set { end = value; } }
@@ -31,6 +32,11 @@ namespace Labyrinth
 		{
 			Start = start;
 			End = end;
+			for (int i = 0; i < cells.GetLength(0); i++)
+			{
+				Console.BackgroundColor = ConsoleColor.Black;
+				Console.WriteLine(" ");
+			}
 			GenaratePath();
 		}
 
@@ -83,7 +89,7 @@ namespace Labyrinth
 		{
 			cells[cell.Pos.X, cell.Pos.Y] = cell;
 		}
-
+		int i = 0;
 		private void GenaratePath(Cell cell)
 		{
 			Random r = new Random();
@@ -100,13 +106,17 @@ namespace Labyrinth
 				}
 			}
 			cell.IsPath = true;
-			foreach (Cell c in naibors)
-				if (c.CanCompleat)
-					validNaibors.Add(c);
-			int ra = r.Next(validNaibors.Count);
-			Cell nextCell = validNaibors[ra];
-			Display();
-			System.Threading.Thread.Sleep(1000/12);
+			int ra = r.Next(naibors.Count);
+			while (!naibors[ra].CanCompleat)
+			{
+				naibors.RemoveAt(ra);
+				ra = r.Next(naibors.Count);
+			}
+			Cell nextCell = naibors[ra];
+			Console.WriteLine(i++);
+			if (i % 1 == 0)
+				Display();
+			//System.Threading.Thread.Sleep(1000/12);
 			GenaratePath(nextCell);
 		}
 
@@ -127,8 +137,10 @@ namespace Labyrinth
 
 		public void Display()
 		{
-			Console.Clear();
+			Console.BackgroundColor = ConsoleColor.Black;
+			//Console.Clear();
 			Console.Write("  ");
+			Console.SetCursorPosition(0,0);
 			for (int i = 0; i < Size.Y; i++)
 			{
 				Console.Write((char)(i+(int)'A') + " ");
@@ -136,30 +148,51 @@ namespace Labyrinth
 			Console.Write("\n");
 			for (int x = 0; x < Size.X; x++)
 			{
+				Console.SetCursorPosition(0, x);
 				Console.Write((char)(x + (int)'A') + " ");
 				for (int y = 0; y < Size.Y; y++)
 				{
-					if (GetCell(x, y).IsPath)
-					{
-						Console.BackgroundColor = ConsoleColor.Yellow;
-					}
-					else if (GetCell(x, y).IsWall())
-					{
-						Console.BackgroundColor = ConsoleColor.Black;
-					}
-					else if (new Cord(x, y).Equals(start) || new Cord(x, y).Equals(end))
-					{
-						Console.BackgroundColor = ConsoleColor.Blue;
-					}
-					else
-					{
-						Console.BackgroundColor = ConsoleColor.Gray;
-					}
-					Console.Write("  ");
+					if (currentShowingBoard != null)
+						if (!currentShowingBoard.cells[x, y].Same(cells[x, y]))
+						{
+							Console.SetCursorPosition(y * 2 + 2, x + 1);
+							if (GetCell(x, y).IsPath)
+							{
+								Console.BackgroundColor = ConsoleColor.Yellow;
+							}
+							else if (GetCell(x, y).IsWall())
+							{
+								Console.BackgroundColor = ConsoleColor.Black;
+							}
+							else if (new Cord(x, y).Equals(start) || new Cord(x, y).Equals(end))
+							{
+								Console.BackgroundColor = ConsoleColor.Blue;
+							}
+							else
+							{
+								Console.BackgroundColor = ConsoleColor.Gray;
+							}
+							Console.Write("  ");
+						}
 				}
 				Console.WriteLine();
 				Console.BackgroundColor = ConsoleColor.Black;
 			}
+			currentShowingBoard = (Labyrinth)this.Clone();
+			
+		}
+
+		public object Clone()
+		{
+			Labyrinth labyrinth = (Labyrinth)this.MemberwiseClone();
+			labyrinth.cells = new Cell[cells.GetLength(0), cells.GetLength(1)];
+			for (int x = 0; x < cells.GetLength(0); x++)
+				for (int y = 0; y < cells.GetLength(1); y++)
+				{
+					labyrinth.cells[x, y] = (Cell)cells[x, y].Clone();
+					labyrinth.cells[x, y].Parent = labyrinth;
+				}
+			return labyrinth as object;
 		}
 	}
 }

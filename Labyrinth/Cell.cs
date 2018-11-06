@@ -7,7 +7,7 @@ using PathFinding;
 
 namespace Labyrinth
 {
-	public class Cell : INode
+	public class Cell : INode, ICloneable
 	{
 		private bool isPath = false;
 		private Cord pos;
@@ -22,6 +22,7 @@ namespace Labyrinth
 		public bool IsPath { get { return isPath; } set { isPath = value; } }
 		public Cord Pos { get { return pos; } set { pos = value; } }
 		public bool CanCompleat { get { return PathFinding.PathFinding.CanCompleat(parent, this); } }
+		public Labyrinth Parent { set { parent = value; } }
 
 		public List<INode> GetNaibors()
 		{
@@ -49,6 +50,16 @@ namespace Labyrinth
 			if (node is Cell c)
 				return this.Pos.Equals(c.Pos);
 			return false;
+		}
+
+		public object Clone()
+		{
+			return this.MemberwiseClone();
+		}
+
+		internal bool Same(Cell other)
+		{
+			return IsWall() == other.IsWall() && isPath == other.isPath;
 		}
 	}
 }
