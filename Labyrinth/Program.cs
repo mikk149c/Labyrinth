@@ -10,7 +10,7 @@ namespace Labyrinth
 	{
 		static void Main(string[] args)
 		{
-			Cord size = new Cord(26*2, 26*2);
+			Cord size = new Cord(26*1, 26*1);
 			Cord start = new Cord(0, 0);
 			Cord end = new Cord(25, 25);
 			Labyrinth lab = new Labyrinth(size, start, end);

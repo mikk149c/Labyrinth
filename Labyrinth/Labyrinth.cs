@@ -140,7 +140,7 @@ namespace Labyrinth
 			Console.BackgroundColor = ConsoleColor.Black;
 			//Console.Clear();
 			Console.Write("  ");
-			Console.SetCursorPosition(0,0);
+			Console.SetCursorPosition(2,0);
 			for (int i = 0; i < Size.Y; i++)
 			{
 				Console.Write((char)(i+(int)'A') + " ");
@@ -148,7 +148,7 @@ namespace Labyrinth
 			Console.Write("\n");
 			for (int x = 0; x < Size.X; x++)
 			{
-				Console.SetCursorPosition(0, x);
+				Console.SetCursorPosition(0, x+1);
 				Console.Write((char)(x + (int)'A') + " ");
 				for (int y = 0; y < Size.Y; y++)
 				{
