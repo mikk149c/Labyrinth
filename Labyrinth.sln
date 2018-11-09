@@ -5,7 +5,9 @@ VisualStudioVersion = 15.0.28010.2046
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Labyrinth", "Labyrinth\Labyrinth.csproj", "{481DB1EE-983E-444D-BC59-2A4E0A61E6A1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PathFinding", "PathFinding\PathFinding.csproj", "{78BFCB1F-2B3D-4C0F-88B0-A6EB51EA47E6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PathFinding", "PathFinding\PathFinding.csproj", "{78BFCB1F-2B3D-4C0F-88B0-A6EB51EA47E6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleWriter", "ConsoleWriter\ConsoleWriter.csproj", "{87A1BFEC-B817-456E-91E9-2DE826EEB74B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{78BFCB1F-2B3D-4C0F-88B0-A6EB51EA47E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78BFCB1F-2B3D-4C0F-88B0-A6EB51EA47E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78BFCB1F-2B3D-4C0F-88B0-A6EB51EA47E6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87A1BFEC-B817-456E-91E9-2DE826EEB74B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87A1BFEC-B817-456E-91E9-2DE826EEB74B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87A1BFEC-B817-456E-91E9-2DE826EEB74B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87A1BFEC-B817-456E-91E9-2DE826EEB74B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
