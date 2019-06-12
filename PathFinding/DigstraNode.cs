@@ -4,7 +4,7 @@ using System.Text;
 
 namespace PathFinding
 {
-	class DigstraNode
+	class DigstraNode : IEquatable<DigstraNode>
 	{
 		public INode Node;
 		public int Lenght;
@@ -15,6 +15,11 @@ namespace PathFinding
 			Node = node;
 			Lenght = lenght;
 			LastNode = lastNode;
+		}
+
+		public bool Equals(DigstraNode other)
+		{
+			return this.Node.Equals(other.Node);
 		}
 	}
 }
